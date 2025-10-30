@@ -1,0 +1,8 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/6d99de80-d8cd-4fb2-be9e-1283b5611ee0/resourceGroups/rg-dev01-techinnovationsandboxbuild-eu2/providers/Microsoft.Web/sites/app-claudia-react",
+    "appService.deploySubpath": ".",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ]
+}
