@@ -2,6 +2,8 @@ import { useState } from 'react';
 import logo from './dsm_firmenich_Logo.jpg';
 import './App.css';
 
+const API_URL = process.env.REACT_APP_API_URL;
+
 function App() {
   const [prompt, setPrompt] = useState('');
   const [videoUrl, setVideoUrl] = useState('');
@@ -14,7 +16,7 @@ function App() {
     }
     setLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/generate-video', {
+      const response = await fetch(`${API_URL}/api/generate-video`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prompt })
@@ -70,13 +72,34 @@ function App() {
       </button>
 
       {/* Show video if available */}
-      {videoUrl && (
-        <video
-          src={videoUrl}
-          controls
-          style={{ width: '640px', marginTop: '20px' }}
-        />
-      )}
+      
+{videoUrl && (
+  <div style={{ marginTop: '20px' }}>
+    <video src={videoUrl} controls style={{ width: '640px' }} />
+    <button
+      onClick={async () => {
+        const response = await fetch(videoUrl);
+        const blob = await response.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'video.mp4'; // Nombre del archivo
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }}
+      style={{
+        padding: '10px 20px',
+        fontSize: '16px',
+        cursor: 'pointer',
+        marginTop: '10px',
+      }}
+    >
+      Download Video
+    </button>
+  </div>
+  )}
+
     </div>
   );
 }
